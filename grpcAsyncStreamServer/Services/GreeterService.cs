@@ -15,12 +15,17 @@ namespace grpcAsyncStreamServer
             _logger = logger;
         }
 
-        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+        public override async Task SayHello(HelloRequest request, IServerStreamWriter<HelloReply> responseStream, ServerCallContext context)
         {
-            return Task.FromResult(new HelloReply
+            foreach (var x in Enumerable.Range(1, 10))
             {
-                Message = "Hello " + request.Name
-            });
+                await responseStream.WriteAsync(new HelloReply
+                {
+                    Message = "Hello " + request.Name
+                });
+
+                await Task.Delay(200);
+            }
         }
     }
 }
