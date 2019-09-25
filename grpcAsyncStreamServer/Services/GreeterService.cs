@@ -21,7 +21,7 @@ namespace grpcAsyncStreamServer
             {
                 await responseStream.WriteAsync(new HelloReply
                 {
-                    Message = "Hello " + request.Name
+                    Message = $"Hello {request.Name} {x}"
                 });
 
                 await Task.Delay(200);
